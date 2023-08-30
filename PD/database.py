@@ -11,7 +11,7 @@ class DatabaseConnection:
                 user='root',
                 port = "3306",
                 password='martin',
-                database='sales'
+                database='products'
                 )
         return cls._connection
     
