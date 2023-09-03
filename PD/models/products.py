@@ -29,16 +29,27 @@ class products:
             '''
             results = DatabaseConnection.fetch_all(query)
             products_list = []
+            total_products = 0
 
             for result in results:
-                products_list.append({
-                    "product_id": result[0],
-                    "product_name": result[1],
-                    "brand": {"brand_id": result[2], "brand_name": result[3]},
-                    "category": {"category_id": result[4], "category_name": result[5]},
-                    "model_year": result[6],
-                    "list_price": result[7]
-                })
-
+                    products_list.append({
+                        "product_id": result[0],
+                        "product_name": result[1],
+                        "brand": {"brand_id": result[2], "brand_name": result[2]},
+                        "category": {"category_id": result[3], "category_name": result[3]},
+                        "model_year": result[4],
+                        "list_price": result[5]        
+                    })
+                    total_products + 1
+            
+            products_list.append({"total_products": total_products})   
             return products_list
-        
+    
+    @classmethod
+    def delete_product(cls, product_id):
+        query = '''
+        DELETE FROM products WHERE product_id = %s
+        '''
+        params=(product_id,)
+        DatabaseConnection.execute_query(query, params)
+        return{"msg": "Product deleted successfully"}, 204
